@@ -14,6 +14,13 @@
 # limitations under the License.
 #
 
+# A/B
+TARGET_IS_VAB := true
+
+# Boot animation
+TARGET_SCREEN_HEIGHT := 2400
+TARGET_SCREEN_WIDTH := 1080
+
 PRODUCT_BUILD_SUPER_PARTITION := false
 PRODUCT_USE_DYNAMIC_PARTITIONS := true
 
@@ -41,7 +48,13 @@ PRODUCT_PACKAGES += \
     TelephonyResCommon_Sys \
     WifiResCommon_Sys \
     FrameworksResTarget \
-    WifiResTarget
+    WifiResTarget \
+    FrameworksResDubai \
+    LineageSystemUIDubai \
+    SettingsResDubai \
+    SettingsProviderResDubai \
+    SystemUIResDubai \
+    WifiResDubai
 
 # A/B
 ifeq ($(TARGET_IS_VAB),true)
@@ -116,7 +129,14 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/audio/sku_yupik/audio_io_policy.conf:$(TARGET_COPY_OUT_VENDOR)/etc/audio/sku_yupik/audio_io_policy.conf \
     $(LOCAL_PATH)/audio/sku_yupik/sound_trigger_mixer_paths.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio/sku_yupik/sound_trigger_mixer_paths.xml \
-    $(LOCAL_PATH)/audio/sku_yupik/sound_trigger_platform_info.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio/sku_yupik/sound_trigger_platform_info.xml
+    $(LOCAL_PATH)/audio/sku_yupik/sound_trigger_platform_info.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio/sku_yupik/sound_trigger_platform_info.xml \
+    $(LOCAL_PATH)/audio/sku_yupik/audio_platform_info.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio/sku_yupik/audio_platform_info.xml \
+    $(LOCAL_PATH)/audio/sku_yupik/mixer_paths.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio/sku_yupik/mixer_paths.xml \
+    $(LOCAL_PATH)/audio/audio_policy_volumes.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_policy_volumes.xml \
+    $(LOCAL_PATH)/audio/audio_effects.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_effects.xml \
+    $(LOCAL_PATH)/audio/audio_ext_spkr.conf:$(TARGET_COPY_OUT_VENDOR)/etc/audio_ext_spkr.conf \
+    $(LOCAL_PATH)/audio/audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_policy_configuration.xml \
+    $(LOCAL_PATH)/audio/default_volume_tables.xml:$(TARGET_COPY_OUT_VENDOR)/etc/default_volume_tables.xml
 
 PRODUCT_COPY_FILES += \
     frameworks/av/services/audiopolicy/config/a2dp_in_audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/a2dp_in_audio_policy_configuration.xml \
@@ -127,6 +147,11 @@ PRODUCT_COPY_FILES += \
 # Authsecret
 PRODUCT_PACKAGES += \
     android.hardware.authsecret@1.0.vendor
+
+# AAPT
+PRODUCT_AAPT_CONFIG := normal
+PRODUCT_AAPT_PREF_CONFIG := 400dpi
+PRODUCT_AAPT_PREBUILT_DPI := xxxhdpi xxhdpi xhdpi hdpi
 
 # Bluetooth
 PRODUCT_PACKAGES += \
@@ -141,6 +166,7 @@ PRODUCT_PACKAGES += \
     android.hardware.camera.provider@2.4-service_64 \
     libcamera2ndk_vendor \
     libgui_vendor \
+    libgui_shim_vendor \
     vendor.qti.hardware.camera.postproc@1.0.vendor
 
 # Charger
@@ -184,6 +210,10 @@ PRODUCT_PACKAGES += \
 # fastbootd
 PRODUCT_PACKAGES += \
     fastbootd
+
+# Fingerprint
+PRODUCT_PACKAGES += \
+    android.hardware.biometrics.fingerprint@2.3-service.dubai
 
 # Gatekeeper
 PRODUCT_PACKAGES += \
@@ -254,6 +284,10 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     android.hardware.keymaster@4.1.vendor
 
+# Keylayout
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/keylayout/goodix_ts.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/goodix_ts.kl
+
 # LiveDisplay
 PRODUCT_PACKAGES += \
     vendor.lineage.livedisplay@2.1-service.motorola_lahaina
@@ -302,6 +336,16 @@ PRODUCT_PACKAGES += \
 # Net
 PRODUCT_PACKAGES += \
     netutils-wrapper-1.0
+
+# NFC
+PRODUCT_PACKAGES += \
+    android.hardware.nfc@1.2.vendor \
+    android.hardware.nfc@1.2-service.st \
+    android.hardware.secure_element@1.2.vendor \
+    com.android.nfc_extras \
+    libchrome.vendor \
+    Tag \
+    nfc_nci.st21nfc.default
 
 # OMX
 PRODUCT_PACKAGES += \
@@ -392,6 +436,9 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/hotword-hiddenapi-package-whitelist.xml:$(TARGET_COPY_OUT_PRODUCT)/etc/sysconfig/hotword-hiddenapi-package-whitelist.xml
 
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/sensors/hals.conf:$(TARGET_COPY_OUT_VENDOR)/etc/sensors/hals.conf
+
 # Power
 PRODUCT_PACKAGES += \
     android.hardware.power-service-qti
@@ -426,10 +473,17 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     android.hardware.sensors@2.0-service.multihal \
     libsensorndkbridge
+    sensors.dubai
 
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += \
     $(LOCAL_PATH)
+
+# Screen
+TARGET_SCREEN_DENSITY := 400
+
+# Shipping
+PRODUCT_SHIPPING_API_LEVEL := 31
 
 # Telephony
 PRODUCT_PACKAGES += \
@@ -460,6 +514,9 @@ PRODUCT_PACKAGES += \
     android.hardware.thermal@2.0-service.qti \
     android.hardware.thermal@2.0 \
     android.hardware.thermal@2.0.vendor
+
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/thermal-engine-dubai-game-perf.conf:$(TARGET_COPY_OUT_VENDOR)/etc/thermal-engine-dubai.conf
 
 # Trusted UI
 PRODUCT_PACKAGES += \
@@ -531,4 +588,4 @@ PRODUCT_BOOT_JARS += \
     WfdCommon
 
 # Inherit from vendor blobs
-$(call inherit-product, vendor/motorola/sm7325-common/sm7325-common-vendor.mk)
+$(call inherit-product, vendor/motorola/dubai/dubai-vendor.mk)
